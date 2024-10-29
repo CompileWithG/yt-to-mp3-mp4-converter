@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
-  const { url } = req.body; // Ensure this is in the body of the request
+  const { url } = req.body.url; // Ensure this is in the body of the request
   const id = getYouTubeVideoId(url);
   const apiUrl = `https://ytstream-download-youtube-videos.p.rapidapi.com/dl?id=${id}`;
   const options = {
