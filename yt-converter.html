@@ -318,7 +318,8 @@
                 loadingBar.style.display = "none"; // Hide loading bar
 
                 if (result) {
-                    const data = await result.json();
+                    console.log(result);
+                    const data=result;
                     document.getElementById("downloadLink").style.display = "block";
                     if (format === 'mp3') {
                         document.getElementById("mp3DownloadLink").href = data.link;
