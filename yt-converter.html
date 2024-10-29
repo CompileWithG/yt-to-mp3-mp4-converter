@@ -276,7 +276,7 @@
                 }, 400); // Simulate loading interval
 
                 const response = await fetch(`/api/convert${format}`, {
-                    method: "GET",
+                    method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ url })
                 });
