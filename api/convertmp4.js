@@ -2,11 +2,6 @@
 import fetch from "node-fetch";
 
 const handler = async (req, res) => {
-  // Allow only POST requests
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method Not Allowed" });
-  }
-
   const url1 = req.body.url;
   const id = getYouTubeVideoId(url1);
   const apiUrl = `https://ytstream-download-youtube-videos.p.rapidapi.com/dl?id=${id}`;
