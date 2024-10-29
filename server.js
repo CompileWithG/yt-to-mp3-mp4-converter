@@ -6,13 +6,7 @@ import fetch from "node-fetch";
 
 const app = express();
 // Configure CORS
-app.use(
-  cors({
-    origin: "https://yt-to-mp3-mp4-converter.vercel.app", // Change this to your frontend origin
-    methods: ["GET", "POST"], // Allow the methods you need
-    credentials: true, // If you need to allow cookies
-  })
-);
+app.use(cors());
 
 app.use(express.json());
 
