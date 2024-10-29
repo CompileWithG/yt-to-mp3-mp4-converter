@@ -1,16 +1,17 @@
-// /api/convertmp3.js
 import fetch from "node-fetch";
-import cors from "cors";
 
-const handler = async (req, res) => {
-  // Allow only POST requests
-  const url1 = req.body.url;
-  const id = getYouTubeVideoId(url1);
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method Not Allowed" });
+  }
+
+  const { url } = req.body; // Ensure this is in the body of the request
+  const id = getYouTubeVideoId(url);
   const apiUrl = `https://youtube-mp36.p.rapidapi.com/dl?id=${id}`;
   const options = {
     method: "GET",
     headers: {
-      "x-rapidapi-key": "3f14faab52msh020e7711e01fb09p1ae353jsn8c6ca3c9e0e6",
+      "x-rapidapi-key": "YOUR_RAPIDAPI_KEY",
       "x-rapidapi-host": "youtube-mp36.p.rapidapi.com",
     },
   };
@@ -23,7 +24,7 @@ const handler = async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Conversion failed" });
   }
-};
+}
 
 const getYouTubeVideoId = (url) => {
   const regex =
@@ -31,5 +32,3 @@ const getYouTubeVideoId = (url) => {
   const match = url.match(regex);
   return match ? match[1] : null;
 };
-
-export default handler;
