@@ -8,7 +8,7 @@ const app = express();
 // Configure CORS
 app.use(
   cors({
-    origin: "https://yt-to-mp3-mp4-converter.vercel.app", // Your frontend URL
+    origin: "*",
   })
 );
 
