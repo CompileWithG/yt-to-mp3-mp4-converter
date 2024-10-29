@@ -1,4 +1,14 @@
 export default async function handler(req, res) {
+  // Set CORS headers
+  res.setHeader("Access-Control-Allow-Origin", "*"); // Allow all origins, or specify a domain
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS"); // Allow POST and OPTIONS methods
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-api-key"); // Allow specific headers
+
+  // Handle preflight requests
+  if (req.method === "OPTIONS") {
+    return res.status(200).end(); // Respond to preflight request with 200 OK
+  }
+
   if (req.method === "POST") {
     const url1 = req.body.url;
 
