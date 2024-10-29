@@ -274,19 +274,50 @@
                         clearInterval(interval);
                     }
                 }, 400); // Simulate loading interval
+                if(format==="mp3"){
+                    const id=getYouTubeVideoId(url);
+                    const apiUrl = `https://youtube-mp36.p.rapidapi.com/dl?id=${id}`;
 
-                const response = await fetch(`https://yt-to-mp3-mp4-converter.vercel.app/api/convert${format}?url=${encodeURIComponent(url)}`, {
-                    method: "GET"
-                });
+                    const options = {
+                        method: "GET",
+                        headers: {
+                            "x-rapidapi-key": "3f14faab52msh020e7711e01fb09p1ae353jsn8c6ca3c9e0e6",
+                            "x-rapidapi-host": "youtube-mp36.p.rapidapi.com",
+                        },
+                    };
+                    try {
+                        const response = await fetch(apiUrl, options);
+                        const result = await response.json();
+                    } catch (error) {
+                        console.error(error);
+                    }
+                }
+                else if(format==="mp4"){
+                    const id = getYouTubeVideoId(url);
+                    const apiUrl = `https://ytstream-download-youtube-videos.p.rapidapi.com/dl?id=${id}`;
+                    const options = {
+                        method: "GET",
+                        headers: {
+                            "x-rapidapi-key": "3f14faab52msh020e7711e01fb09p1ae353jsn8c6ca3c9e0e6",
+                            "x-rapidapi-host": "ytstream-download-youtube-videos.p.rapidapi.com",
+                        },
+                    };
 
+                    try {
+                        const response = await fetch(apiUrl, options);
+                        const result = await response.json();
+                    } catch (error) {
+                        console.error(error);
+                    }
+                }
 
                 clearInterval(interval); // Clear progress simulation
 
                 loadingMessage.style.display = "none"; // Hide loading message
                 loadingBar.style.display = "none"; // Hide loading bar
 
-                if (response.ok) {
-                    const data = await response.json();
+                if (result) {
+                    const data = await result.json();
                     document.getElementById("downloadLink").style.display = "block";
                     if (format === 'mp3') {
                         document.getElementById("mp3DownloadLink").href = data.link;
@@ -307,6 +338,13 @@
                 alert('Error occurred. Please try again.');
             }
         }
+        // Helper function to extract the video ID
+            const getYouTubeVideoId = (url) => {
+                const regex =
+                    /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+                const match = url.match(regex);
+                return match ? match[1] : null;
+            };
     </script>
 </body>
 
