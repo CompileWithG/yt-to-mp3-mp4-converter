@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube to MP3/MP4 Converter</title>
+    <link rel="icon" type="image/svg" sizes="32x32" href="./images/icon.svg.svg">
+    <style>
+        /* General body styles */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(270deg, #ff0000, #cc0000, #990000, #ff4d4d, #ff0000);
+            background-size: 400% 400%;
+            animation: gradient 8s ease infinite;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            25% {
+                background-position: 50% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            75% {
+                background-position: 50% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Header styles with floating animation */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 36px;
+            margin-bottom: 20px;
+            margin-right: 10px;
+            /* Space between the heading and the icon */
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            animation: float 3s ease-in-out infinite alternate;
+        }
+
+        /* YouTube icon styles */
+        #youtubeIcon {
+            width: 40px;
+            /* Decrease the size of the YouTube icon */
+            height: 40px;
+            /* Maintain aspect ratio */
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(-5px);
+            }
+
+            100% {
+                transform: translateY(5px);
+            }
+        }
+
+        /* Main container */
+        .container {
+            background-color: #fff;
+            padding: 40px 30px;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Subtext under heading */
+        .subtext {
+            color: #666;
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 30px;
+        }
+
+        /* Input styles */
+        #youtubeUrl {
+            width: calc(100% - 24px);
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 400;
+            transition: all 0.3s ease;
+        }
+
+        #youtubeUrl:focus {
+            border-color: #ff0000;
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+        }
+
+        /* Dropdown styles */
+        #formatSelect {
+            width: calc(100% - 24px);
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        #formatSelect:focus {
+            border-color: #ff0000;
+            outline: none;
+        }
+
+        /* Button styles */
+        button {
+            background-color: #ff0000;
+            color: #fff;
+            padding: 14px;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            background-color: #cc0000;
+            transform: translateY(-2px);
+        }
+
+        /* Loading indicator */
+        #loading {
+            display: none;
+            margin-top: 10px;
+            color: #ff0000;
+            font-weight: bold;
+        }
+
+        /* Download link styles */
+        #downloadLink {
+            margin-top: 25px;
+        }
+
+        #mp3DownloadLink,
+        #mp4DownloadLink {
+            color: #ff0000;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        #mp3DownloadLink:hover,
+        #mp4DownloadLink:hover {
+            text-decoration: underline;
+        }
+
+        /* File name styling */
+        #fileName {
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        /* Loading bar styles */
+        #loadingBar {
+            width: 100%;
+            background: #f3f3f3;
+            border-radius: 4px;
+            overflow: hidden;
+            display: none;
+            /* Initially hidden */
+            margin-top: 10px;
+        }
+
+        #loadingProgress {
+            height: 10px;
+            background: #ff0000;
+            width: 0;
+            /* Initial width */
+            transition: width 0.4s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>YouTube to MP3/MP4 Converter</h1>
+        <img id="youtubeIcon" src="./images/youtube-icon.svg" alt="YouTube Icon">
+    </div>
+    <div class="container">
+        <p class="subtext">Convert your favorite YouTube videos to high-quality MP3 (video should be less than 10 mins
+            long) or MP4</p>
+        <form id="convertForm">
+            <input type="text" id="youtubeUrl" placeholder="Enter YouTube URL here" required>
+            <select id="formatSelect">
+                <option value="mp3">MP3</option>
+                <option value="mp4">MP4</option>
+            </select>
+            <button type="button" onclick="convert()">Convert</button>
+        </form>
+        <div id="loading">Converting, please wait...</div>
+        <div id="loadingBar">
+            <div id="loadingProgress"></div>
+        </div>
+        <div id="downloadLink" style="display:none;">
+            <p>Download your file:
+                <a id="mp3DownloadLink" href="#" download style="display:none;">Download MP3</a>
+                <a id="mp4DownloadLink" href="#" download style="display:none;" target="_blank">Download MP4</a>
+            </p>
+            <p id="fileName"></p>
+        </div>
+    </div>
+
+    <script>
+        async function convert() {
+            const url = document.getElementById("youtubeUrl").value;
+            const format = document.getElementById("formatSelect").value;
+            const loadingMessage = document.getElementById("loading");
+            const loadingBar = document.getElementById("loadingBar");
+            const loadingProgress = document.getElementById("loadingProgress");
+
+            loadingMessage.style.display = "block"; // Show loading message
+            loadingBar.style.display = "block"; // Show loading bar
+
+            try {
+                // Simulate loading progress
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 10;
+                    if (progress <= 100) {
+                        loadingProgress.style.width = `${progress}%`;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 400); // Simulate loading interval
+
+                const response = await fetch(`http://localhost:3000/convert${format}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ url })
+                });
+
+                clearInterval(interval); // Clear progress simulation
+
+                loadingMessage.style.display = "none"; // Hide loading message
+                loadingBar.style.display = "none"; // Hide loading bar
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById("downloadLink").style.display = "block";
+                    if (format === 'mp3') {
+                        document.getElementById("mp3DownloadLink").href = data.link;
+                        document.getElementById("mp3DownloadLink").style.display = "inline";
+                        document.getElementById("mp4DownloadLink").style.display = "none";
+                    } else {
+                        const mp4Format = data.formats.find(format => format.ext === 'mp4');
+                        document.getElementById("mp4DownloadLink").href = mp4Format.url;
+                        document.getElementById("mp4DownloadLink").style.display = "inline";
+                        document.getElementById("mp3DownloadLink").style.display = "none";
+                    }
+                    document.getElementById("fileName").innerText = data.fileName; // Show file name
+                } else {
+                    alert('Error converting the video.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error occurred. Please try again.');
+            }
+        }
+    </script>
+</body>
+
+</html>
