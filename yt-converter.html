@@ -277,8 +277,7 @@
 
                 const response = await fetch(`/api/convert${format}`, {
                     method: "GET",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ url : "https://www.youtube.com/watch?v=c9dsvX7qN5s"})
+                    headers: { "Content-Type": "application/json" }
                 });
 
                 clearInterval(interval); // Clear progress simulation
