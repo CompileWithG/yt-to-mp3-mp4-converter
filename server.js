@@ -12,7 +12,7 @@ app.use(express.json()); // Middleware to parse JSON requests
 app.options("*", cors()); // Respond to preflight request with CORS headers
 
 // Convert to MP3
-app.post("/api/convertmp3", async (req, res) => {
+app.get("/api/convertmp3", async (req, res) => {
   const url1 = req.body.url;
   const id = getYouTubeVideoId(url1);
   const apiUrl = `https://youtube-mp36.p.rapidapi.com/dl?id=${id}`;
@@ -36,7 +36,7 @@ app.post("/api/convertmp3", async (req, res) => {
 });
 
 // Convert to MP4
-app.post("/api/convertmp4", async (req, res) => {
+app.get("/api/convertmp4", async (req, res) => {
   const { url } = req.body; // Ensure this is in the body of the request
   const id = getYouTubeVideoId(url);
   const apiUrl = `https://ytstream-download-youtube-videos.p.rapidapi.com/dl?id=${id}`;
