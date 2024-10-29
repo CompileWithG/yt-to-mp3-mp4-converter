@@ -28,6 +28,7 @@ app.get("/api/convertmp3", async (req, res) => {
   try {
     const response = await fetch(apiUrl, options);
     const result = await response.json();
+    console.log(result);
     res.json(result); // Respond with JSON
   } catch (error) {
     console.error(error);
@@ -51,6 +52,7 @@ app.get("/api/convertmp4", async (req, res) => {
   try {
     const response = await fetch(apiUrl, options);
     const result = await response.json();
+    console.log(result);
     res.json(result);
   } catch (error) {
     console.error(error);
