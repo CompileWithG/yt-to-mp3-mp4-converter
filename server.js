@@ -8,9 +8,12 @@ const app = express();
 // Configure CORS
 app.use(
   cors({
-    origin: "*",
+    origin: "https://yt-to-mp3-mp4-converter.vercel.app", // Your frontend URL
+    methods: ["GET", "POST"], // Allow specific methods
+    credentials: true, // Allow credentials if needed
   })
 );
+app.options("*", cors()); // Enable preflight for all routes
 
 app.use(express.json());
 
