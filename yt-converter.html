@@ -275,9 +275,10 @@
                     }
                 }, 400); // Simulate loading interval
 
-                const response = await fetch(`/api/convert${format}`, {
+                const response = await fetch(`/api/convert${format}?url=${encodeURIComponent(url)}`, {
                     method: "GET",
                 });
+
 
                 clearInterval(interval); // Clear progress simulation
 

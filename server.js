@@ -13,7 +13,7 @@ app.options("*", cors()); // Respond to preflight request with CORS headers
 
 // Convert to MP3
 app.get("/api/convertmp3", async (req, res) => {
-  const url1 = req.body.url;
+  const url1 = req.query.url; // Get the URL from query parameters
   const id = getYouTubeVideoId(url1);
   const apiUrl = `https://youtube-mp36.p.rapidapi.com/dl?id=${id}`;
 
@@ -37,8 +37,8 @@ app.get("/api/convertmp3", async (req, res) => {
 
 // Convert to MP4
 app.get("/api/convertmp4", async (req, res) => {
-  const { url } = req.body; // Ensure this is in the body of the request
-  const id = getYouTubeVideoId(url);
+  const url1 = req.query.url; // Get the URL from query parameters
+  const id = getYouTubeVideoId(url1);
   const apiUrl = `https://ytstream-download-youtube-videos.p.rapidapi.com/dl?id=${id}`;
   const options = {
     method: "GET",
