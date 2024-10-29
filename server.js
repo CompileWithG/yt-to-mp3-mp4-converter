@@ -5,7 +5,14 @@ import path from "path";
 import fetch from "node-fetch";
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://yt-to-mp3-mp4-converter-1md6onkys-compilewithgs-projects.vercel.app",
+    ],
+  })
+);
+
 app.use(express.json());
 
 function getYouTubeVideoId(url) {
