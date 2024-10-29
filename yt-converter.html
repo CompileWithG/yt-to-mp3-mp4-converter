@@ -294,12 +294,12 @@
                         document.getElementById("mp3DownloadLink").style.display = "inline";
                         document.getElementById("mp4DownloadLink").style.display = "none";
                     } else {
-                        const mp4Format = data.formats.find(format => format.ext === 'mp4');
+                        const mp4Format = data.formats[0];
                         document.getElementById("mp4DownloadLink").href = mp4Format.url;
                         document.getElementById("mp4DownloadLink").style.display = "inline";
                         document.getElementById("mp3DownloadLink").style.display = "none";
                     }
-                    document.getElementById("fileName").innerText = data.fileName; // Show file name
+                    document.getElementById("fileName").innerText = data.title; // Show file name
                 } else {
                     alert('Error converting the video.');
                 }
