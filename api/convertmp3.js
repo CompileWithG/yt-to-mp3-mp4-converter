@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     const options = {
       method: "GET",
       headers: {
-        "x-rapidapi-key": "YOUR_RAPIDAPI_KEY",
+        "x-rapidapi-key": "3f14faab52msh020e7711e01fb09p1ae353jsn8c6ca3c9e0e6",
         "x-rapidapi-host": "youtube-mp36.p.rapidapi.com",
       },
     };
