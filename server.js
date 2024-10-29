@@ -14,6 +14,10 @@ function getYouTubeVideoId(url) {
   const match = url.match(regex);
   return match ? match[1] : null;
 }
+// Serve the HTML file
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "yt-converter.html")); // Adjust if your HTML file has a different name
+});
 app.post("/convertmp4", async (req, res) => {
   const url1 = req.body.url;
   const id = getYouTubeVideoId(url1);
