@@ -322,6 +322,7 @@
                     const data=result;
                     document.getElementById("downloadLink").style.display = "block";
                     if (format === 'mp3') {
+                        console.log(data);
                         document.getElementById("mp3DownloadLink").href = data.link;
                         document.getElementById("mp3DownloadLink").style.display = "inline";
                         document.getElementById("mp4DownloadLink").style.display = "none";
