@@ -4,10 +4,6 @@ import cors from "cors";
 
 const handler = async (req, res) => {
   // Allow only POST requests
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method Not Allowed" });
-  }
-
   const url1 = req.body.url;
   const id = getYouTubeVideoId(url1);
   const apiUrl = `https://youtube-mp36.p.rapidapi.com/dl?id=${id}`;
